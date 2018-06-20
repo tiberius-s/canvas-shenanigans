@@ -1,0 +1,19 @@
+html, body {
+  margin: 0 auto;
+  width: 600px;
+  font-size: 16px;
+}
+
+.actions {
+  padding-top: 1rem;
+}
+
+.page-title {
+  text-align: center;
+}
+
+#canvas {
+  display: block;
+  margin: auto;
+  border: 1px solid #AAAAAA;
+}

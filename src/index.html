@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Canvas</title>
+</head>
+
+<body onload="render()">
+  <h1 class="page-title">Canvas Test Kitchen</h1>
+  <div>
+    <canvas id="canvas" height="400" width="600">
+      <p>
+        Your browser does not meet the minimum requirements for this plugin. Please update your browser to a more recent version
+        to enable this feature.
+      </p>
+    </canvas>
+    <div class="actions">
+      <select name="shape" id="shape" onchange="canvas.changeShape()">
+        <option value="circle">Circle</option>
+        <option value="rectangle">Rectangle</option>
+      </select>
+      <button type="button" onclick="canvas.clearCanvas()">Clear</button>
+      <button type="button" onclick="canvas.deleteMap()">Delete Focused</button>
+    </div>
+    <div>
+        <h3>Current Map Coordinates</h3>
+        <div id="maps"></div>
+    </div>
+  </div>
+</body>
+
+</html>
