@@ -16,16 +16,20 @@
       </p>
     </canvas>
     <div class="actions">
-      <select name="shape" id="shape" onchange="canvas.changeShape()">
-        <option value="circle">Circle</option>
-        <option value="rectangle">Rectangle</option>
-      </select>
-      <button type="button" onclick="canvas.clearCanvas()">Clear</button>
-      <button type="button" onclick="canvas.deleteMap()">Delete Focused</button>
+      <input type="radio" name="shape" id="shape1" value="circle">
+      <label for="shape1">Circle</label>
+      <input type="radio" name="shape" id="shape2" value="rectangle">
+      <label for="shape2">Rectangle</label>
+      <input type="radio" name="shape" id="shape3" value="polygon">
+      <label for="shape3">Polygon</label>
+      <span class="buttons">
+        <button type="button" onclick="canvas.clearCanvas()">Clear</button>
+        <button type="button" onclick="canvas.deleteMap()">Delete Focused</button>
+      </span>
     </div>
     <div>
-        <h3>Current Map Coordinates</h3>
-        <div id="maps"></div>
+      <h3>Current Map Coordinates</h3>
+      <div id="maps"></div>
     </div>
   </div>
 </body>

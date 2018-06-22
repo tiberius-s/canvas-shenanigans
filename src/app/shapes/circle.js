@@ -4,7 +4,6 @@ class Circle extends Shape {
   constructor(coords, context) {
     super(coords, context);
     this.type = "circle";
-    this.dimensions = {};
   }
 
   contains(point) {
@@ -13,6 +12,41 @@ class Circle extends Shape {
         Math.pow(point.y - this.dimensions.shape.cy, 2)
     );
     return distToCenter < this.dimensions.shape.r;
+  }
+
+  draw() {
+    // this.context.strokeRect(
+    //   this.dimensions.frame.x,
+    //   this.dimensions.frame.y,
+    //   this.dimensions.frame.w,
+    //   this.dimensions.frame.h
+    // );
+
+    this.path = new Path2D();
+    this.path.arc(
+      this.dimensions.shape.cx,
+      this.dimensions.shape.cy,
+      Math.abs(this.dimensions.shape.r),
+      0,
+      2 * Math.PI,
+      false
+    );
+    this.path.closePath();
+    this.context.strokeStyle = this.strokeStyle;
+    this.context.stroke(this.path);
+  }
+
+  getArea() {
+    const { r } = this.getAreaCoords();
+    return Math.round(Math.PI * Math.pow(r, 2));
+  }
+
+  getAreaCoords() {
+    return {
+      cx: this.dimensions.shape.cx,
+      cy: this.dimensions.shape.cy,
+      r: this.dimensions.shape.r
+    };
   }
 
   updateDimensions() {
@@ -47,39 +81,6 @@ class Circle extends Shape {
       shape: circle
     };
     return this;
-  }
-
-  getArea() {
-    const { r } = this.getAreaCoords();
-    return Math.round(Math.PI * Math.pow(r, 2));
-  }
-
-  getAreaCoords() {
-    return {
-      cx: this.dimensions.shape.cx,
-      cy: this.dimensions.shape.cy,
-      r: this.dimensions.shape.r
-    };
-  }
-
-  draw() {
-    // this.context.strokeRect(
-    //   this.dimensions.frame.x,
-    //   this.dimensions.frame.y,
-    //   this.dimensions.frame.w,
-    //   this.dimensions.frame.h
-    // );
-    this.context.strokeStyle = this.strokeStyle;
-    this.context.beginPath();
-    this.context.arc(
-      this.dimensions.shape.cx,
-      this.dimensions.shape.cy,
-      Math.abs(this.dimensions.shape.r),
-      0,
-      2 * Math.PI,
-      false
-    );
-    this.context.stroke();
   }
 
   updateCoordinates() {

@@ -4,7 +4,6 @@ class Rectangle extends Shape {
   constructor(coords, context) {
     super(coords, context);
     this.type = "rectangle";
-    this.dimensions = {};
   }
 
   contains(point) {
@@ -17,13 +16,15 @@ class Rectangle extends Shape {
   }
 
   draw() {
-    this.context.strokeStyle = this.strokeStyle;
-    this.context.strokeRect(
+    this.path = new Path2D();
+    this.path.rect(
       this.dimensions.shape.x,
       this.dimensions.shape.y,
       this.dimensions.shape.w,
       this.dimensions.shape.h
     );
+    this.context.strokeStyle = this.strokeStyle;
+    this.context.stroke(this.path);
   }
 
   getArea() {

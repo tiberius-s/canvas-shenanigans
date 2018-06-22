@@ -6,11 +6,13 @@ class Shape {
     this.startPoint = coords.start;
     this.endPoint = coords.end;
     this.moveOffSet = coords.start;
+    this.dimensions = { frame: {}, shape: {} };
     this.context = context;
     this.drawing = true;
     this.moving = false;
     this.selected = false;
     this.resizing = false;
+    this.path = new Path2D();
     this.strokeStyle = "#000";
   }
 
@@ -25,8 +27,20 @@ class Shape {
     console.warn("Implement a method to render the shape");
   }
 
+  getArea() {
+    console.warn("Implement a method to return the shapes area in pixels");
+  }
+
   getAreaCoords() {
     console.warn("Implement a method to return the coordinates of the shape");
+  }
+
+  updateDimensions() {
+    console.warn("Implement a method to update the shape's dimensions and or points");
+  }
+
+  updateCoordinates() {
+    console.warn("Implement a method to update the shape's location on the canvas");
   }
 
   //CLASS METHODS
@@ -75,7 +89,7 @@ class Shape {
     return this;
   }
 
-  completeDrawing() {
+  finishDrawing() {
     this.drawing = false;
     return this;
   }

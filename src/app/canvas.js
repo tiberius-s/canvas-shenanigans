@@ -14,25 +14,36 @@ import { ENGINE_METHOD_DIGESTS } from "constants";
  *        [x] rectangle
  *        [x] circle
  *        [] polygon
+ *    [] upload image
+ *    [] parse html <img> and <map> (if available)
+ *    [] generate proper <map> or modify existing
  */
 
 class CanvasApp {
   constructor() {
     this.canvas = document.getElementById("canvas");
     this.context = this.canvas.getContext("2d");
-    this.currentDrawShape = SHAPES.CIRCLE;
+    this.shapes = document.getElementsByName("shape");
+    this.currentDrawShape = SHAPES.POLYGON;
     this.currentAction = "draw";
-    this.selectedShape;
+    this.shapeInProgress;
+    this.focusedShape;
     this.maps = [];
     this.isMouseDown = false;
 
     this.canvas.addEventListener("mousedown", e => this.mouseDown(e), false);
     this.canvas.addEventListener("mousemove", e => this.mouseMove(e), false);
     this.canvas.addEventListener("mouseup", e => this.mouseUp(e), false);
+
+    this.shapes.forEach(node =>
+      node.addEventListener("change", e => this.setShape(), false)
+    );
+    this.init();
   }
 
   render() {
     if (this.canvas.getContext) {
+      // console.log(this.shapeInProgress);
       this.clearCanvas();
       this.maps.forEach(r => {
         // if (!r.inUse() && !this.isMouseDown) {
@@ -48,15 +59,18 @@ class CanvasApp {
     this.isMouseDown = true;
     const coords = this.getMouseCoords(e);
     this.determineAction(coords);
-    ActionDispatcher[this.currentAction].onMouseDown(this, coords);
+    ActionDispatcher[this.currentAction].onMouseDown(this, coords, e);
     this.render();
     e.preventDefault();
   }
 
   mouseMove(e) {
-    if (this.isMouseDown) {
+    if (
+      this.isMouseDown ||
+      (this.shapeInProgress && this.shapeInProgress.inUse())
+    ) {
       const coords = this.getMouseCoords(e);
-      ActionDispatcher[this.currentAction].onMouseMove(this, coords);
+      ActionDispatcher[this.currentAction].onMouseMove(this, coords, e);
       this.render();
     }
     e.preventDefault();
@@ -66,7 +80,7 @@ class CanvasApp {
     if (this.isMouseDown) {
       this.isMouseDown = false;
       const coords = this.getMouseCoords(e);
-      ActionDispatcher[this.currentAction].onMouseUp(this, coords);
+      ActionDispatcher[this.currentAction].onMouseUp(this, coords, e);
       this.render();
     }
     e.preventDefault();
@@ -83,46 +97,50 @@ class CanvasApp {
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
   }
 
-  changeShape() {
-    const element = document.getElementById("shape");
-    const selection = element.options[element.selectedIndex].value;
-    for (const shape in SHAPES) {
-      if (SHAPES.hasOwnProperty(shape)) {
-        if (selection === SHAPES[shape]) {
-          this.currentDrawShape = SHAPES[shape];
-        }
-      }
+  setShape() {
+    const shapes = [...this.shapes];
+    const selected = shapes.find(shape => shape.checked);
+    selected !== undefined
+      ? (this.currentDrawShape = SHAPES[selected.value.toUpperCase()])
+      : (this.currentDrawShape = SHAPES.POLYGON);
+    if (!selected) {
+      shapes.find(shape => shape.value === SHAPES.POLYGON).checked = true;
     }
   }
 
   determineAction(coords) {
     const shape = this.maps.find(shape => shape.contains(coords));
     if (shape) {
-      if (this.selectedShape) {
-        this.selectedShape.deselect();
+      if (shape.drawing) {
+        return;
       }
-      this.selectedShape = shape;
+      if (this.focusedShape) {
+        this.focusedShape.deselect();
+      }
+      this.focusedShape = shape;
       this.currentAction = ACTIONS.MOVE;
       console.log("Now we move");
     } else {
+      if (this.focusedShape) {
+        this.focusedShape.deselect();
+      }
       this.currentAction = ACTIONS.DRAW;
       console.log("Now we draw");
     }
   }
 
-  removeInvalidShape(shape) {
-    return shape.getArea() > 300;
-  }
-
   deleteMap() {
-    if (this.selectedShape) {
-      let index = this.maps.findIndex(shape => shape.id === this.selectedShape.id);
+    if (this.focusedShape) {
+      let index = this.maps.findIndex(
+        shape => shape.id === this.focusedShape.id
+      );
       this.maps.splice(index, 1);
-      this.selectedShape = undefined;
+      this.focusedShape = undefined;
       this.render();
     }
   }
 
+  //TODO: Refactor or remove
   displayMaps() {
     const mapContainer = document.getElementById("maps");
     mapContainer.innerHTML = "";
@@ -130,11 +148,17 @@ class CanvasApp {
     this.maps.forEach(shape => {
       content += `
       <div class="map">
-        <div>Shape: ${shape.type} |  Coords: ${JSON.stringify(shape.getAreaCoords())} Area in pixels ${shape.getArea()} | Focused: ${shape.selected}</div>
+        <div>Shape: ${shape.type} |  Coords: ${JSON.stringify(
+        shape.getAreaCoords()
+      )} Area in pixels ${shape.getArea()} | Focused: ${shape.selected}</div>
       </div>
-      `
+      `;
     });
     mapContainer.innerHTML = content;
+  }
+
+  init() {
+    this.setShape();
   }
 }
 
