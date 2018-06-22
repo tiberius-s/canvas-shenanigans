@@ -47,7 +47,7 @@ class CanvasApp {
   render() {
     if (this.canvas.getContext) {
       this.clearCanvas();
-      this.loadImage();
+      this.drawImage();
       this.maps.forEach(r => {
         // if (!r.inUse() && !this.isMouseDown) {
         //   console.log(r.getAreaCoords());
@@ -103,6 +103,7 @@ class CanvasApp {
       this.maps = [];
     }
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.drawImage();
   }
 
   setShape() {
@@ -149,13 +150,16 @@ class CanvasApp {
   }
 
   loadImage() {
-    const img = new Image();
-    img.onload = () => {
-      this.context.imageSmoothingEnabled = false;
-      this.context.drawImage(img, 0, 0, img.width, img.height, 0, 0, this.canvas.width, this.canvas.height);
-    }
-    img.src = imgUrl;
-    console.dir(img);
+    this.img = new Image();
+    this.img.onload = () => this.drawImage();
+    this.img.src = imgUrl;
+  }
+
+  drawImage() {
+    const srcSize = [0, 0, this.img.width, this.img.height];
+    const destSize = [0, 0, this.canvas.width, this.canvas.height];
+    this.context.imageSmoothingEnabled = false;
+    this.context.drawImage(this.img, ...srcSize, ...destSize);
   }
 
   //TODO: Refactor or remove
@@ -177,7 +181,9 @@ class CanvasApp {
 
   init() {
     this.setShape();
+    this.loadImage();
   }
 }
 
 export default CanvasApp;
+
