@@ -9,11 +9,14 @@ import { ENGINE_METHOD_DIGESTS } from "constants";
  * -- Implement different actions on mouse events
  *    [x] select
  *    [x] move
- *    [] resize
- *    [] draw
+ *    [x] draw
  *        [x] rectangle
  *        [x] circle
- *        [] polygon
+ *        [x] polygon
+ *    [] resize
+ *        [] bounding rectangle for each shape (maybe not rectangle)
+ *        [] a selector on the corner of bounding box to adjust size - bottom right?
+ *        [] massage all the dimensions on resizze, ugh
  *    [] upload image
  *    [] parse html <img> and <map> (if available)
  *    [] generate proper <map> or modify existing
@@ -24,8 +27,8 @@ class CanvasApp {
     this.canvas = document.getElementById("canvas");
     this.context = this.canvas.getContext("2d");
     this.shapes = document.getElementsByName("shape");
-    this.currentDrawShape = SHAPES.POLYGON;
-    this.currentAction = "draw";
+    this.currentDrawShape;
+    this.currentAction;
     this.shapeInProgress;
     this.focusedShape;
     this.maps = [];
@@ -43,7 +46,6 @@ class CanvasApp {
 
   render() {
     if (this.canvas.getContext) {
-      // console.log(this.shapeInProgress);
       this.clearCanvas();
       this.maps.forEach(r => {
         // if (!r.inUse() && !this.isMouseDown) {
@@ -93,7 +95,12 @@ class CanvasApp {
     return new Point(x, y);
   }
 
-  clearCanvas() {
+  clearCanvas(del) {
+    if (del) {
+      this.shapeInProgress = undefined;
+      this.focusedShape = undefined;
+      this.maps = [];
+    }
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
   }
 
@@ -102,9 +109,9 @@ class CanvasApp {
     const selected = shapes.find(shape => shape.checked);
     selected !== undefined
       ? (this.currentDrawShape = SHAPES[selected.value.toUpperCase()])
-      : (this.currentDrawShape = SHAPES.POLYGON);
+      : (this.currentDrawShape = SHAPES.CIRCLE);
     if (!selected) {
-      shapes.find(shape => shape.value === SHAPES.POLYGON).checked = true;
+      shapes.find(shape => shape.value === SHAPES.CIRCLE).checked = true;
     }
   }
 
@@ -119,13 +126,13 @@ class CanvasApp {
       }
       this.focusedShape = shape;
       this.currentAction = ACTIONS.MOVE;
-      console.log("Now we move");
+      // console.log("Now we move");
     } else {
       if (this.focusedShape) {
         this.focusedShape.deselect();
       }
       this.currentAction = ACTIONS.DRAW;
-      console.log("Now we draw");
+      // console.log("Now we draw");
     }
   }
 

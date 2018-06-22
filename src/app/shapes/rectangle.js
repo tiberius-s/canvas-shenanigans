@@ -6,15 +6,6 @@ class Rectangle extends Shape {
     this.type = "rectangle";
   }
 
-  contains(point) {
-    return (
-      this.dimensions.shape.x <= point.x &&
-      this.dimensions.shape.x + this.dimensions.shape.w >= point.x &&
-      this.dimensions.shape.y <= point.y &&
-      this.dimensions.shape.y + this.dimensions.shape.h >= point.y
-    );
-  }
-
   draw() {
     this.path = new Path2D();
     this.path.rect(

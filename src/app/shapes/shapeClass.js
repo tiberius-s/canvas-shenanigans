@@ -17,11 +17,6 @@ class Shape {
   }
 
   //ABSTRACT METHODS
-  contains(point) {
-    console.warn(
-      "Implement a method to verify if the point coordinates are inside the shape's area"
-    );
-  }
 
   draw() {
     console.warn("Implement a method to render the shape");
@@ -44,13 +39,8 @@ class Shape {
   }
 
   //CLASS METHODS
-  updateStartPoint(newPoint) {
-    const { x, y } = {
-      x: newPoint.x - this.moveOffSet.x,
-      y: newPoint.y - this.moveOffSet.y
-    };
-    this.startPoint = new Point(x, y);
-    return this;
+  contains(point) {
+    return this.context.isPointInPath(this.path, point.x, point.y);
   }
 
   setMoveOffset(newPoint) {
@@ -59,6 +49,15 @@ class Shape {
       y: newPoint.y - this.startPoint.y
     };
     this.moveOffSet = new Point(x, y);
+    return this;
+  }
+
+  updateStartPoint(newPoint) {
+    const { x, y } = {
+      x: newPoint.x - this.moveOffSet.x,
+      y: newPoint.y - this.moveOffSet.y
+    };
+    this.startPoint = new Point(x, y);
     return this;
   }
 

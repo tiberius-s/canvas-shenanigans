@@ -41,7 +41,7 @@ const draw = {
 function finishDrawing() {
   this.shapeInProgress.finishDrawing();
   this.shapeInProgress = undefined;
-  // this.maps = this.maps.filter(removeInvalidShape);
+  this.maps = this.maps.filter(removeInvalidShape);
 }
 
 function removeInvalidShape(shape) {

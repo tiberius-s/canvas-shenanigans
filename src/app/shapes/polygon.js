@@ -7,10 +7,6 @@ class Polygon extends Shape {
     this.points = [];
   }
 
-  contains(point) {
-    return this.context.isPointInPath(this.path, point.x, point.y);
-  }
-
   draw() {
     this.path = new Path2D();
     this.path.moveTo(

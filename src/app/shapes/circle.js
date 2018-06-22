@@ -6,22 +6,14 @@ class Circle extends Shape {
     this.type = "circle";
   }
 
-  contains(point) {
-    const distToCenter = Math.sqrt(
-      Math.pow(point.x - this.dimensions.shape.cx, 2) +
-        Math.pow(point.y - this.dimensions.shape.cy, 2)
-    );
-    return distToCenter < this.dimensions.shape.r;
-  }
-
   draw() {
+
     // this.context.strokeRect(
     //   this.dimensions.frame.x,
     //   this.dimensions.frame.y,
     //   this.dimensions.frame.w,
     //   this.dimensions.frame.h
     // );
-
     this.path = new Path2D();
     this.path.arc(
       this.dimensions.shape.cx,
