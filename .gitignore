@@ -5,3 +5,4 @@ test.sh
 .vscode
 .DS_Store
 .editorconfig
+dist

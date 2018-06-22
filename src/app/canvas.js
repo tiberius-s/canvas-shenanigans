@@ -2,7 +2,7 @@ import ActionDispatcher from "./actions/actionDispatcher";
 import ACTIONS from "./actions/actions";
 import Point from "./shapes/point";
 import SHAPES from "./shapes/shapes";
-import { ENGINE_METHOD_DIGESTS } from "constants";
+import imgUrl from './assets/bulbs.jpeg';
 
 /**
  * TODO:
@@ -47,6 +47,7 @@ class CanvasApp {
   render() {
     if (this.canvas.getContext) {
       this.clearCanvas();
+      this.loadImage();
       this.maps.forEach(r => {
         // if (!r.inUse() && !this.isMouseDown) {
         //   console.log(r.getAreaCoords());
@@ -145,6 +146,16 @@ class CanvasApp {
       this.focusedShape = undefined;
       this.render();
     }
+  }
+
+  loadImage() {
+    const img = new Image();
+    img.onload = () => {
+      this.context.imageSmoothingEnabled = false;
+      this.context.drawImage(img, 0, 0, img.width, img.height, 0, 0, this.canvas.width, this.canvas.height);
+    }
+    img.src = imgUrl;
+    console.dir(img);
   }
 
   //TODO: Refactor or remove
