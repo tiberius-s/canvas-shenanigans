@@ -1,14 +1,16 @@
 {
-  "name": "canvas",
+  "name": "canvas-shenanigans",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "barebones project to play with canvas",
+  "keywords": [
+    "html-canvas"
+  ],
+  "author": "Tiberius Silivestru <tiberius.silivestru@gmail.com>",
+  "license": "MIT",
+  "browserslist": "> 0.5%, last 2 versions, not dead",
   "scripts": {
     "start": "parcel src/index.html"
   },
-  "keywords": [],
-  "author": "Tiberius Silivestru <tiberius.silivestru@gmail.com>",
-  "license": "ISC",
   "devDependencies": {
     "parcel": "^2.8.3"
   }
