@@ -1,20 +1,25 @@
 html,
 body {
-  margin: 0 auto;
+  margin: 30 auto;
   min-width: 600px;
   font-size: 16px;
+  font-family: sans-serif;
+  color: #222222;
+  background-color: #f2f2f2;
 }
 
 .page-title {
   text-align: center;
+  padding-bottom: 20;
 }
 
 #soapbox {
   text-align: center;
+  font-size: large;
 }
 
 #canvas {
   display: block;
   margin: auto;
-  border: 1px solid #AAAAAA;
+  border: 5px solid #222222;
 }

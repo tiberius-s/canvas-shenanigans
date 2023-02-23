@@ -1,4 +1,4 @@
-import { drawSmiley } from './smiley.js';
+import { drawSmiley } from './draw-smiley.js';
 
 function load() {
   const ctx = document.getElementById('canvas')?.getContext('2d');
