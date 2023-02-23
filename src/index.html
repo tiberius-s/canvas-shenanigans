@@ -3,35 +3,25 @@
 
 <head>
   <meta charset="UTF-8">
+
   <title>Canvas</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="index.js" type="module"></script>
 </head>
 
-<body onload="render()">
-  <h1 class="page-title">Canvas Test Kitchen</h1>
-  <div>
-    <canvas id="canvas" height="400" width="600">
-      <p>
-        Your browser does not meet the minimum requirements for this plugin. Please update your browser to a more recent version
-        to enable this feature.
-      </p>
-    </canvas>
-    <div class="actions">
-      <input type="radio" name="shape" id="shape1" value="circle">
-      <label for="shape1">Circle</label>
-      <input type="radio" name="shape" id="shape2" value="rectangle">
-      <label for="shape2">Rectangle</label>
-      <input type="radio" name="shape" id="shape3" value="polygon">
-      <label for="shape3">Polygon</label>
-      <span class="buttons">
-        <button type="button" onclick="canvas.clearCanvas(true)">Clear</button>
-        <button type="button" onclick="canvas.deleteMap()">Delete Focused</button>
-      </span>
-    </div>
-    <div>
-      <h3>Current Map Coordinates</h3>
-      <div id="maps"></div>
-    </div>
-  </div>
+<body>
+  <h1 class="page-title">Canvas Shenanigans</h1>
+
+  <canvas id="canvas" height="400" width="400">
+    <p>
+      Your browser does not meet the minimum requirements for this plugin. Please update your browser to a more recent
+      version
+      to enable this feature.
+    </p>
+  </canvas>
+
+  <p id="soapbox"></p>
+
 </body>
 
 </html>
